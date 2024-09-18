@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vyhledávání</title>
+</head>
+<body>
+    <h1>Vyhledávání na Google</h1>
+    <form id="searchForm">
+        <input type="text" id="query" name="query" placeholder="Zadejte klíčové slovo">
+        <button type="submit">Vyhledat</button>
+    </form>
+    <div id="results"></div>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const query = document.getElementById('query').value;
+            fetchResults(query);
+        });
+
+        async function fetchResults(query) {
+            const response = await fetch(`https://api.example.com/search?q=${encodeURIComponent(query)}`);
+            const data = await response.json();
+            displayResults(data);
+        }
+
+        function displayResults(data) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+            data.results.forEach(result => {
+                const resultItem = document.createElement('div');
+                resultItem.textContent = result.title;
+                resultsDiv.appendChild(resultItem);
+            });
+        }
+    </script>
+</body>
+</html>
